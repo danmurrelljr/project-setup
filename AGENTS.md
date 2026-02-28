@@ -37,22 +37,29 @@ skills/
 
 ## Sync Workflow
 
-Individual skills are kept in sync manually:
-1. Edit the skill here in the monorepo
-2. When ready, copy changed files to the individual skill's local repo clone
-3. Commit and push to the public GitHub repo
-4. Zip the skill folder for upload to Claude if the skill content changed
+Individual skills sync to their GitHub repos via `git subtree push`. Each skill's push command is listed in the Skills table below.
 
-If asked to "sync skills" or "publish {skill-name}", follow the steps above. Remind the user to re-upload the zip to Claude if `Skill.md` or any resource file changed.
+When asked to "sync skills" or "publish {skill-name}":
+1. Commit any changes in the monorepo
+2. Run the skill's subtree push command (see Skills table)
+3. Remind the user to re-upload the zip to Claude at Customize > Skills if `Skill.md` or any resource file changed
+
+## Skills
+
+| Skill | GitHub Repo | Subtree Push Command |
+|-------|-------------|----------------------|
+| [project-setup](./project-setup/) | [danmurrelljr/project-setup](https://github.com/danmurrelljr/project-setup) (private) | `git subtree push --prefix=project-setup project-setup main` |
 
 ## Creating a New Skill
 
 1. Create `{skill-name}/Skill.md` with proper frontmatter
-2. Add any supporting files (REFERENCE.md, scripts, assets)
-3. Update the Skills table in `README.md`
-4. Commit to this monorepo
-5. Create the public GitHub repo (`gh repo create danmurrelljr/{skill-name} --public`)
-6. Copy skill folder there, commit, and push
+2. Add `README.md` and `LICENSE` (MIT)
+3. Add any supporting files (REFERENCE.md, scripts, assets)
+4. Update the Skills table in this file and in `README.md`
+5. Commit to this monorepo and push to madcap
+6. Create the GitHub repo: `gh repo create danmurrelljr/{skill-name} --private --description "..."`
+7. Add the remote: `git remote add {skill-name} https://github.com/danmurrelljr/{skill-name}.git`
+8. Push via subtree: `git subtree push --prefix={skill-name} {skill-name} main`
 
 ## Inbox / Notes
 
