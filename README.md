@@ -27,4 +27,4 @@ When a skill is ready to publish or updated:
 
 | Skill | Description | Public Repo |
 |-------|-------------|-------------|
-| _(none yet)_ | | |
+| [project-setup](./project-setup/) | Scaffolds a new AI-assisted personal project with inbox workflow, privacy controls, git setup, and a customized AGENTS.md | _(not yet published)_ |
