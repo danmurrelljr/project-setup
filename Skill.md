@@ -211,6 +211,7 @@ Show:
 {project-name}/
   README.md
   AGENTS.md
+  ProjectIndex.md
   .gitignore
   inbox/
     .gitkeep          # tracked — keeps folder in git
@@ -224,6 +225,7 @@ Show:
 3. **File summaries** — one line per file explaining what it will contain:
    - `README.md` — human-readable project overview, folder guide, workflow description
    - `AGENTS.md` — AI assistant instructions with privacy rules, inbox processing logic, and session checklist
+   - `ProjectIndex.md` — AI-maintained semantic index of all project knowledge; updated automatically during inbox processing and commits
    - `.gitignore` — ignores `sensitive/`, OS files, editor files, and any project-specific exclusions
 
 4. **Git setup plan** — what git commands will be run:
@@ -254,6 +256,8 @@ Do **not** add `.gitkeep` to `sensitive/` or any other gitignored directory. Tho
 Create `.gitignore` with the following content (adapt as needed):
 
 ```
+# ProjectIndex.md is intentionally committed — do not add it here
+
 # Sensitive content — never commit
 sensitive/
 
@@ -306,7 +310,48 @@ Generate a README.md tailored to this project. Structure:
 
 Adapt the content to match the project's actual purpose and the user's answers. Do not use generic placeholder language — make it specific.
 
-### Step 4: Write AGENTS.md
+### Step 4: Write ProjectIndex.md
+
+Create `ProjectIndex.md` with the following content. Use the project's creation date for "Last updated" and the project description for "Project Summary". The Knowledge Map table should include `inbox/`, `archive/`, `sensitive/`, and any additional folders the user requested.
+
+```markdown
+# {Project Name} — Project Index
+
+*This file is maintained by AI assistants. Update it whenever project knowledge changes.*
+
+Last updated: {YYYY-MM-DD}
+
+## Project Summary
+{One paragraph description of the project's purpose and current state.}
+
+## Key Topics
+*Semantic tags representing the main themes and subjects in this project.*
+
+<!-- none yet -->
+
+## Knowledge Map
+*Brief summaries of what each file/folder contains, updated as content grows.*
+
+| File/Folder | Contains | Last Updated |
+|-------------|----------|--------------|
+| `inbox/` | Unprocessed raw notes | — |
+| `archive/` | Processed inbox items | — |
+| `sensitive/` | Local-only content (not indexed) | — |
+
+## Open Threads
+*Questions, decisions, or ideas that are unresolved.*
+
+<!-- none yet -->
+
+## Recent Changes
+*Rolling log of the last ~10 significant knowledge additions.*
+
+<!-- none yet -->
+```
+
+Add a row to the Knowledge Map for each additional folder (e.g. `budget/`, `drafts/`) with an appropriate "Contains" description and "—" for Last Updated.
+
+### Step 5: Write AGENTS.md
 
 This is the most important file. It must be specific, actionable, and honest. Generate it with the following structure:
 
@@ -349,6 +394,27 @@ This is a **public** project. All committed content is visible to anyone.
 | `sensitive/` | Local-only confidential content | **No — gitignored** |
 | {additional folders} | {descriptions} | Yes |
 
+## ProjectIndex.md Maintenance
+
+`ProjectIndex.md` is the semantic index for this project. Keep it current.
+
+### When to update it
+- After every inbox processing session
+- After any commit that adds or significantly changes content
+- When new topics or themes emerge
+
+### How to update it
+1. Add or update rows in the **Knowledge Map** for any files that changed
+2. Add new **Key Topics** tags if new themes appeared
+3. Move resolved items out of **Open Threads**; add new unresolved ones
+4. Append to **Recent Changes** (keep the last ~10 entries; drop older ones)
+5. Update the **Last updated** date at the top
+
+### What NOT to put here
+- Raw content (that belongs in the actual files)
+- Sensitive data of any kind — treat this file as committable
+- Exhaustive detail — summaries and tags only
+
 ## Inbox Processing
 
 When the user asks to "process inbox" or similar:
@@ -359,6 +425,11 @@ When the user asks to "process inbox" or similar:
 4. After processing each file, move it to `archive/` with a date prefix: `archive/YYYY-MM-DD_{original-filename}`.
 5. NEVER delete inbox files. Always move to archive.
 6. After processing all files, report what was done: what was found, where content was routed, what was archived.
+7. After archiving all inbox files, update ProjectIndex.md:
+   - Add/update Knowledge Map rows for any files that received new content
+   - Add new Key Topics tags for themes that emerged
+   - Append a one-line entry to Recent Changes for each significant addition
+   - Update the Last updated date
 
 ## Git Workflow
 
@@ -378,9 +449,10 @@ List each configured remote:
 At the start of every session working on this project:
 
 1. Re-read the PRIVACY section above.
-2. Run `git status` to see the current state.
-3. Check `inbox/` for unprocessed files.
-4. Ask the user what they want to work on.
+2. Read ProjectIndex.md to orient to the current state of the project.
+3. Run `git status` to see what has changed since last session.
+4. Check `inbox/` for unprocessed files.
+5. Ask the user what they want to work on.
 ```
 
 **Critical rules for AGENTS.md generation:**
@@ -390,7 +462,7 @@ At the start of every session working on this project:
 - Do not pad with generic boilerplate. Every line should be specific to this project.
 - If the project involves a high-sensitivity domain, add extra warnings and stricter rules.
 
-### Step 5: Initialize Git
+### Step 6: Initialize Git
 
 The default branch name is **`main`**. If the user has not expressed a preference, use `main` without asking. Only use a different branch name if the user explicitly requests it.
 
@@ -399,7 +471,7 @@ Run the following commands in the project directory:
 ```bash
 git init -b main
 git add .
-git commit -m "Initial scaffold: project structure, README, AGENTS.md, gitignore"
+git commit -m "Initial scaffold: project structure, README, AGENTS.md, ProjectIndex.md, gitignore"
 ```
 
 Note: `git init -b main` requires git 2.28 or later. If the user's git version is older, fall back to:
@@ -408,10 +480,10 @@ Note: `git init -b main` requires git 2.28 or later. If the user's git version i
 git init
 git checkout -b main
 git add .
-git commit -m "Initial scaffold: project structure, README, AGENTS.md, gitignore"
+git commit -m "Initial scaffold: project structure, README, AGENTS.md, ProjectIndex.md, gitignore"
 ```
 
-### Step 6: Create Remotes and Push (if applicable)
+### Step 7: Create Remotes and Push (if applicable)
 
 Repeat the following for each remote the user configured. Execute them in the order the user specified.
 
