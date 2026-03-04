@@ -1,6 +1,6 @@
 ---
 name: Project Setup
-description: Scaffolds a new AI-assisted personal project with inbox workflow, privacy controls, git setup, and a customized AGENTS.md
+description: Scaffolds a new AI-assisted personal project with inbox workflow, scratch and sensitive folders, privacy controls, git setup, and a customized AGENTS.md
 ---
 
 # Project Setup Skill
@@ -15,7 +15,7 @@ You are a project scaffolding assistant. When this skill is activated, you guide
 
 Greet the user. Explain briefly what you will do:
 
-> You will scaffold a new AI-assisted personal project. The result is a git repo with a README for humans, an AGENTS.md for AI assistants, an inbox for dropping raw notes, an archive for processed items, and a sensitive folder for content that should never be committed. You will walk through a few questions to customize everything.
+> You will scaffold a new AI-assisted personal project. The result is a git repo with a README for humans, an AGENTS.md for AI assistants, an inbox for dropping raw notes, an archive for processed items, a sensitive folder for confidential content (or anything the user asks not to commit), and a scratch folder for local-only agent reference material (e.g. other codebases or notes) that stays uncommitted. You will walk through a few questions to customize everything.
 
 Then gather the following information **conversationally** — do not present all questions as a numbered list. Ask one or two at a time, respond to the user's answers, and move on naturally.
 
@@ -94,7 +94,7 @@ If the project purpose inherently involves high-sensitivity domains (finances, m
 
 #### 7. Additional Folders (Optional)
 
-Based on the project purpose, suggest 1-3 additional folders that might be useful beyond the standard `inbox/`, `archive/`, and `sensitive/`. Examples:
+Based on the project purpose, suggest 1-3 additional folders that might be useful beyond the standard `inbox/`, `archive/`, `sensitive/`, and `scratch/`. Examples:
 
 - Finance project: `budget/`, `transactions/`, `reports/`
 - Writing project: `drafts/`, `ideas/`, `research/`
@@ -218,6 +218,7 @@ Show:
   archive/
     .gitkeep          # tracked — keeps folder in git
   sensitive/          # gitignored — no .gitkeep
+  scratch/            # gitignored — no .gitkeep
   {any additional folders}/
     .gitkeep          # tracked — keeps folder in git
 ```
@@ -226,7 +227,7 @@ Show:
    - `README.md` — human-readable project overview, folder guide, workflow description
    - `AGENTS.md` — AI assistant instructions with privacy rules, inbox processing logic, and session checklist
    - `ProjectIndex.md` — AI-maintained semantic index of all project knowledge; updated automatically during inbox processing and commits
-   - `.gitignore` — ignores `sensitive/`, OS files, editor files, and any project-specific exclusions
+   - `.gitignore` — ignores `sensitive/`, `scratch/`, OS files, editor files, and any project-specific exclusions
 
 4. **Git setup plan** — what git commands will be run:
    - `git init`
@@ -249,7 +250,7 @@ Create the project root folder and all subdirectories. Use `mkdir -p` for nested
 
 Add a `.gitkeep` file only to directories that are **tracked by git** — specifically `inbox/`, `archive/`, and any additional non-gitignored folders. This ensures empty directories are preserved in the repository.
 
-Do **not** add `.gitkeep` to `sensitive/` or any other gitignored directory. Those folders are excluded from git entirely, so a `.gitkeep` inside them will never be committed and will only create confusion for future AI sessions working with the project.
+Do **not** add `.gitkeep` to `sensitive/`, `scratch/`, or any other gitignored directory. Those folders are excluded from git entirely, so a `.gitkeep` inside them will never be committed and will only create confusion for future AI sessions working with the project.
 
 ### Step 2: Write .gitignore
 
@@ -258,8 +259,9 @@ Create `.gitignore` with the following content (adapt as needed):
 ```
 # ProjectIndex.md is intentionally committed — do not add it here
 
-# Sensitive content — never commit
-sensitive/
+# Local-only — never commit
+sensitive/    # Confidential content or user-requested exclusions
+scratch/      # Agent reference material (e.g. other codebases, notes) for local use only
 
 # OS files
 .DS_Store
@@ -291,16 +293,17 @@ Generate a README.md tailored to this project. Structure:
 
 | Folder | Purpose |
 |--------|---------|
-| `inbox/` | Drop zone for raw notes, files, and ideas. Process with AI assistance. |
+| `inbox/` | Drop zone for raw notes, files, and ideas. Process with AI assistance. Inbox items may contain sensitive content; the assistant can archive a clean summary and move sensitive material to `sensitive/` when appropriate. |
 | `archive/` | Processed inbox items, prefixed with date (YYYY-MM-DD). |
-| `sensitive/` | Local-only content that is never committed to git. |
+| `sensitive/` | Confidential content or anything the user asks not to commit. Never committed to git. |
+| `scratch/` | Local-only agent reference (e.g. other codebases, discussion notes). For the agent's medium- to long-term use; never committed. |
 | {additional folders} | {descriptions} |
 
 ## Workflow
 
 1. Drop raw content into `inbox/`.
 2. Ask your AI assistant to "process inbox."
-3. The assistant reads each item, routes content to the appropriate file or folder, and moves the raw file to `archive/` with a date prefix.
+3. The assistant reads each item, routes content to the appropriate file or folder, and moves the raw file to `archive/` with a date prefix. If content might be sensitive, the assistant may ask whether to archive a clean summary (and move the original to `sensitive/`) instead of archiving the raw file.
 
 ## Git Remote
 
@@ -312,7 +315,7 @@ Adapt the content to match the project's actual purpose and the user's answers. 
 
 ### Step 4: Write ProjectIndex.md
 
-Create `ProjectIndex.md` with the following content. Use the project's creation date for "Last updated" and the project description for "Project Summary". The Knowledge Map table should include `inbox/`, `archive/`, `sensitive/`, and any additional folders the user requested.
+Create `ProjectIndex.md` with the following content. Use the project's creation date for "Last updated" and the project description for "Project Summary". The Knowledge Map table should include `inbox/`, `archive/`, `sensitive/`, `scratch/`, and any additional folders the user requested.
 
 ```markdown
 # {Project Name} — Project Index
@@ -336,7 +339,8 @@ Last updated: {YYYY-MM-DD}
 |-------------|----------|--------------|
 | `inbox/` | Unprocessed raw notes | — |
 | `archive/` | Processed inbox items | — |
-| `sensitive/` | Local-only content (not indexed) | — |
+| `sensitive/` | Local-only confidential content (not indexed) | — |
+| `scratch/` | Local-only agent reference and notes (not indexed) | — |
 
 ## Open Threads
 *Questions, decisions, or ideas that are unresolved.*
@@ -366,7 +370,7 @@ This is the most important file. It must be specific, actionable, and honest. Ge
 This is a **private** project. All content is personal and confidential.
 
 ### Hard Rules
-- NEVER commit files in the `sensitive/` directory
+- NEVER commit files in the `sensitive/` or `scratch/` directories
 - NEVER include {specific sensitive content types from user's answers} in committed files
 - If you encounter content that looks like {sensitive patterns}, WARN the user before proceeding
 - When referencing {sensitive entities}, use masked or generic identifiers (e.g. "Bank A" instead of the real institution name)
@@ -376,7 +380,7 @@ This is a **private** project. All content is personal and confidential.
 This is a **public** project. All committed content is visible to anyone.
 
 ### Hard Rules
-- NEVER commit files in the `sensitive/` directory
+- NEVER commit files in the `sensitive/` or `scratch/` directories
 - Before committing any content, verify it contains no personal, financial, medical, or otherwise sensitive information
 - When in doubt, ask the user before committing
 - Re-read this PRIVACY section at the start of every session
@@ -391,7 +395,8 @@ This is a **public** project. All committed content is visible to anyone.
 |--------|---------|-------------------|
 | `inbox/` | Drop zone for raw notes and files | Yes (but contents are transient) |
 | `archive/` | Processed inbox items with date prefix | Yes |
-| `sensitive/` | Local-only confidential content | **No — gitignored** |
+| `sensitive/` | Confidential content or user-requested exclusions; never committed | **No — gitignored** |
+| `scratch/` | Agent reference material (e.g. other codebases, notes) for local use only; never committed | **No — gitignored** |
 | {additional folders} | {descriptions} | Yes |
 
 ## ProjectIndex.md Maintenance
@@ -413,6 +418,7 @@ This is a **public** project. All committed content is visible to anyone.
 ### What NOT to put here
 - Raw content (that belongs in the actual files)
 - Sensitive data of any kind — treat this file as committable
+- Content from `sensitive/` or `scratch/` — do not index or summarize those folders
 - Exhaustive detail — summaries and tags only
 
 ## Inbox Processing
@@ -422,11 +428,12 @@ When the user asks to "process inbox" or similar:
 1. List all files in `inbox/` (excluding `.gitkeep`).
 2. Read each file.
 3. {Customized processing instructions based on user's stated preference — written out as specific, actionable steps.}
-4. After processing each file, move it to `archive/` with a date prefix: `archive/YYYY-MM-DD_{original-filename}`.
-5. NEVER delete inbox files. Always move to archive.
-6. After processing all files, report what was done: what was found, where content was routed, what was archived.
-7. After archiving all inbox files, update ProjectIndex.md:
-   - Add/update Knowledge Map rows for any files that received new content
+4. Before moving each file to archive: if it contains or might contain sensitive content (per the PRIVACY rules above), ask the user whether to (a) archive the file as-is, or (b) archive only a clean summary (no sensitive details) and move the sensitive content to `sensitive/`. When in doubt, ask.
+5. After processing each file: (a) move the raw file to `archive/` with a date prefix: `archive/YYYY-MM-DD_{original-filename}`; or (b) create a clean summary file, move that to `archive/` with a date prefix (e.g. `archive/YYYY-MM-DD_summary_{original-filename}`), and move the original inbox file to `sensitive/` so it is preserved but never committed.
+6. NEVER delete inbox files. Always move to archive (the raw file or a summary, as decided in step 4); if option (b), the original lives in `sensitive/`.
+7. After processing all files, report what was done: what was found, where content was routed, what was archived.
+8. After archiving all inbox files, update ProjectIndex.md:
+   - Add/update Knowledge Map rows for any files that received new content (do not index or summarize content from `sensitive/` or `scratch/`)
    - Add new Key Topics tags for themes that emerged
    - Append a one-line entry to Recent Changes for each significant addition
    - Update the Last updated date
@@ -458,6 +465,7 @@ At the start of every session working on this project:
 **Critical rules for AGENTS.md generation:**
 - The privacy section MUST be the first section after the title.
 - Sensitive content rules must reference the specific types the user identified, not generic placeholders.
+- Clearly distinguish `sensitive/` (confidential or user-requested exclusions) from `scratch/` (agent reference material); both are gitignored and never committed.
 - Inbox processing instructions must reflect the user's stated preference exactly, in concrete steps.
 - Do not pad with generic boilerplate. Every line should be specific to this project.
 - If the project involves a high-sensitivity domain, add extra warnings and stricter rules.
@@ -583,13 +591,13 @@ After all files are created and git is set up, report back to the user with:
 
 Explain in plain language:
 
-> Drop any file into `inbox/` — a text note, a screenshot, a link dump, whatever. Then ask your AI assistant to "process inbox." It will read each file, {do whatever the user specified}, and archive the raw files with a date stamp.
+> Drop any file into `inbox/` — a text note, a screenshot, a link dump, whatever. Then ask your AI assistant to "process inbox." It will read each file, {do whatever the user specified}, and archive the raw files (or a clean summary, with the original in `sensitive/`, if content is sensitive) with a date stamp.
 
 ### Privacy Reminder
 
 If private:
 
-> This is a private project. The `sensitive/` folder is gitignored and nothing in it will ever be committed. For committed files, avoid including {specific sensitive content types}. Your AGENTS.md file instructs AI assistants to enforce these rules, but always double-check before pushing to a remote.
+> This is a private project. The `sensitive/` and `scratch/` folders are gitignored and nothing in them will ever be committed. Use `sensitive/` for confidential content; use `scratch/` for agent reference material (e.g. other codebases) you want the agent to use locally without committing. For committed files, avoid including {specific sensitive content types}. Your AGENTS.md file instructs AI assistants to enforce these rules, but always double-check before pushing to a remote.
 
 ### Suggested Next Step
 
@@ -598,6 +606,7 @@ Based on the project type, suggest one concrete next step. Examples:
 - "Try dropping a note into `inbox/` and asking me to process it."
 - "You might want to create your first `budget.md` in the `budget/` folder."
 - "Consider adding your first draft to `drafts/`."
+- "If you have related codebases (e.g. other repos), put them in `scratch/` so your assistant can reference them without committing."
 
 ---
 
@@ -605,9 +614,9 @@ Based on the project type, suggest one concrete next step. Examples:
 
 These rules apply throughout the entire skill execution:
 
-1. **Privacy is paramount.** Every file, every git command, every remote operation must respect the user's privacy choice. Never create a public remote for a private project. Never suggest committing sensitive content.
+1. **Privacy is paramount.** Every file, every git command, every remote operation must respect the user's privacy choice. Never create a public remote for a private project. Never suggest committing sensitive content. Never commit anything from `sensitive/` or `scratch/`.
 
-2. **Never delete inbox files.** Always move to `archive/` with a `YYYY-MM-DD_` date prefix. The date is the date of processing, not the file's creation date.
+2. **Never delete inbox files.** Always move to `archive/` with a `YYYY-MM-DD_` date prefix. The date is the date of processing, not the file's creation date. Inbox items may be sensitive; when in doubt, offer to archive a clean summary and move sensitive content to `sensitive/` instead of archiving the raw file.
 
 3. **Keep AGENTS.md honest.** Write instructions that are specific to this project. Do not use filler or generic advice. Every line should be actionable and relevant.
 
