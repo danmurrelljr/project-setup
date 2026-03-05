@@ -79,4 +79,3 @@ sensitive_hints:
 
 - Default timeline: log under current date unless specified.
 - Before committing: confirm no calendar, travel PII, or contact details in committed files.
-- **Commit Format:** Always use the format `{project-name}: {message}`.

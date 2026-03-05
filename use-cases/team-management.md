@@ -1,6 +1,22 @@
-# Use case: Team Management
+---
+id: team-management
+name: Team Management
+folders:
+  - team/
+  - platform/
+  - strategy/
+  - projects/
+  - meetings/
+files:
+  - team/stakeholders.md
+sensitive_hints:
+  - Personnel issues
+  - Performance concerns
+  - Political tactics
+  - Identifiable names in negative or confidential context
+---
 
-**id:** `team-management`
+# Use case: Team Management
 
 Workspace for a team's annual/master plan and ongoing management. For engineering managers (or similar) leading a remote or cross-functional team: strategy, roadmap, personnel context, meeting notes, and initiative deep-dives. The agent acts as "relentless organizer"—capturing unstructured notes and routing them into the right files with consistent structure and professional tone.
 
@@ -79,7 +95,7 @@ The user is a manager (e.g. engineering) for a team. This repo is the planning a
 
 ### Commit protocol
 
-Wait for significant milestones or explicit user request before pushing. Lets the user batch changes and review before sync. Always use the format `{project-name}: {message}` (e.g., `{project-name}: update monthly check-ins`).
+Wait for significant milestones or explicit user request before pushing. Lets the user batch changes and review before sync.
 
 ### Agent hand-off
 

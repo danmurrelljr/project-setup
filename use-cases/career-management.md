@@ -101,6 +101,3 @@ Every 3 months, the agent should prompt for a "Career Strategy Review":
 3. Update stakeholder map (Blockers, Champions, Neutral).
 4. Identify 3 high-leverage activities for the next quarter.
 
-### Optional initialization prompts
-
-When starting or auditing: (1) Review `leadership-portfolio.md`—are entries results or just activities? (2) Cross-reference with work goals if the user has a separate work repo (without hard-linking). (3) Update stakeholder map (Blockers, Champions, Neutral). (4) Capture career-relevant 1:1 wins here, not in the work repo.

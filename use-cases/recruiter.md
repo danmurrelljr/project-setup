@@ -4,7 +4,6 @@ name: Recruiter
 folders:
   - roles/
   - pipeline/
-  - process/
   - templates/
   - sensitive/candidates/
   - sensitive/feedback/
@@ -34,7 +33,7 @@ sensitive_hints:
 
 - `roles/` — job descriptions, requirements, open/closed roles; one doc per role or pipeline stage
 - `pipeline/` — pipeline stages, process, or local summary (no candidate names); detailed pipeline in `sensitive/pipeline/` if needed
-- `process/` or `templates/` — interview guides, scorecard templates, outreach templates (no candidate data)
+- `templates/` — interview guides, scorecard templates, outreach templates (no candidate data)
 - `sensitive/candidates/` — candidate info, contact, notes
 - `sensitive/feedback/` — interview feedback, scorecards, hiring committee notes; never committed
 
@@ -45,7 +44,7 @@ sensitive_hints:
 ## Inbox processing default
 
 1. List inbox; classify each item.
-2. **Route:** Job description / role update → `roles/`. Candidate-related notes, feedback, or scorecards → `sensitive/candidates/` or `sensitive/feedback/` (do not commit). Process or template → `process/` or `templates/`. Pipeline summary (anonymized counts/stages only) → `pipeline/`.
+2. **Route:** Job description / role update → `roles/`. Candidate-related notes, feedback, or scorecards → `sensitive/candidates/` or `sensitive/feedback/` (do not commit). Interview guides or templates → `templates/`. Pipeline summary (anonymized counts/stages only) → `pipeline/`.
 3. Committed files: role specs, process docs, templates. No candidate names, feedback, or compensation.
 4. Move originals to `archive/` (date-prefixed) or `sensitive/`. Report what was processed.
 5. Update ProjectIndex.md.
@@ -56,7 +55,7 @@ sensitive_hints:
 
 | `roles/` | Job descriptions, requirements, open/closed roles |
 | `pipeline/` | Pipeline stages, process summary (anonymized) |
-| `process/` or `templates/` | Interview guides, scorecards, outreach templates |
+| `templates/` | Interview guides, scorecards, outreach templates |
 | `sensitive/candidates/` | Candidate info, notes; gitignored |
 | `sensitive/feedback/` | Interview feedback, scorecards; gitignored |
 
@@ -68,10 +67,10 @@ sensitive_hints:
 
 ### Project structure (recruiting)
 
-- Roles, pipeline (anonymized), process/templates. All candidate data and interview feedback in `sensitive/candidates/` and `sensitive/feedback/`; never committed.
+- Roles, pipeline (anonymized), templates. All candidate data and interview feedback in `sensitive/candidates/` and `sensitive/feedback/`; never committed.
 - Committed content: role descriptions, process docs, templates. No candidate PII or identifiable feedback.
 
 ### Working with this repo
 
-- New role: add to roles/ from job description; keep candidate-specific workflow in sensitive/.
+- New role: add to roles/ from job description; add interview guides and outreach templates to templates/; keep all candidate-specific content in sensitive/.
 - Before committing: confirm no candidate names, contact info, feedback, or compensation.
