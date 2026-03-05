@@ -1,8 +1,24 @@
+---
+id: recruiter
+name: Recruiter
+folders:
+  - roles/
+  - pipeline/
+  - process/
+  - templates/
+  - sensitive/candidates/
+  - sensitive/feedback/
+files: []
+sensitive_hints:
+  - Candidate names
+  - Contact info
+  - Interview feedback
+  - Scorecards
+  - Compensation discussions
+  - Internal hiring decisions
+---
+
 # Use case: Recruiter
-
-**id:** `recruiter`
-
-Roles, candidates, pipeline, and interview feedback. Inbox receives job descriptions, candidate notes, and feedback; agent organizes and keeps candidate-identifiable and sensitive feedback out of committed files.
 
 ---
 

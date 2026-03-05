@@ -1,8 +1,21 @@
+---
+id: product-manager
+name: Product Manager
+folders:
+  - roadmap/
+  - requirements/
+  - backlog/
+  - stakeholders/
+  - metrics/
+files: []
+sensitive_hints:
+  - Unreleased strategy
+  - Pricing
+  - Confidential stakeholder feedback
+  - Identifiable customer PII
+---
+
 # Use case: Product Manager
-
-**id:** `product-manager`
-
-Roadmap, requirements, backlog, and stakeholder alignment for a product or product area. Inbox captures feedback, ideas, and meeting notes; agent routes them and keeps docs current.
 
 ---
 

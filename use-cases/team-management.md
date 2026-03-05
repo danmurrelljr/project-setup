@@ -39,7 +39,8 @@ Workspace for a team's annual/master plan and ongoing management. For engineerin
    - Initiative/project updates → `projects/` (relevant initiative doc).
    - Meeting takeaways / general progress → `meetings/YYYY-MM-checkin.md` (Team Progress or General Notes).
    - Sensitive personnel or political notes (manager-only) → `sensitive/`.
-5. Move original to `archive/` (date-prefixed). Report what was processed.
+5. **Preservation:** If a note was sanitized for tone, move the **original raw/heated note** to `sensitive/` with a reference to the sanitized version in `archive/`. This preserves the user's original emotion for later reflection while keeping the repo work-safe.
+6. Move sanitized/standard originals to `archive/` (date-prefixed). Report what was processed.
 6. Use clear H2/H3 headers (dates, topics, feedback) so future queries like "What did we discuss with X in November?" or "How has Y's feedback changed?" are answerable.
 
 ---
@@ -78,7 +79,7 @@ The user is a manager (e.g. engineering) for a team. This repo is the planning a
 
 ### Commit protocol
 
-Wait for significant milestones or explicit user request before pushing. Lets the user batch changes and review before sync.
+Wait for significant milestones or explicit user request before pushing. Lets the user batch changes and review before sync. Always use the format `{project-name}: {message}` (e.g., `{project-name}: update monthly check-ins`).
 
 ### Agent hand-off
 

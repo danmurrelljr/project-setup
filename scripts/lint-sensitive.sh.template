@@ -1,0 +1,42 @@
+#!/bin/bash
+
+# Simple pre-commit linter for sensitive data patterns.
+# This script scans staged files for common PII patterns (emails, SSNs, credit cards, etc.)
+
+FILES=$(git diff --cached --name-only --diff-filter=ACM | grep -v 'sensitive/')
+
+if [ -z "$FILES" ]; then
+    exit 0
+fi
+
+# Define sensitive patterns (regex)
+EMAIL_PATTERN="[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}"
+SSN_PATTERN="\b[0-9]{3}-[0-9]{2}-[0-9]{4}\b"
+CC_PATTERN="\b(?:4[0-9]{12}(?:[0-9]{3})?|5[1-5][0-9]{14}|3[47][0-9]{13}|3(?:0[0-5]|[68][0-9])[0-9]{11}|6(?:011|5[0-9]{2})[0-9]{12}|(?:2131|1800|35\d{3})\d{11})\b"
+REDACTION_REMINDER="\[REDACTED_.*\]"
+
+FOUND_SENSITIVE=0
+
+for FILE in $FILES; do
+    # Skip binary files
+    if [[ $(file -b --mime-type "$FILE") == text/* ]]; then
+        # Check for patterns
+        grep -En "$EMAIL_PATTERN|$SSN_PATTERN|$CC_PATTERN" "$FILE" && {
+            echo ":: WARNING :: Potential sensitive data found in $FILE"
+            FOUND_SENSITIVE=1
+        }
+        
+        # Check for intentional redaction placeholders (optional reminder)
+        # grep -En "$REDACTION_REMINDER" "$FILE" > /dev/null || {
+        #     echo ":: INFO :: No redaction markers found in $FILE"
+        # }
+    fi
+done
+
+if [ $FOUND_SENSITIVE -ne 0 ]; then
+    echo ":: ERROR :: Sensitive data detected. Review the files or move them to 'sensitive/' before committing."
+    exit 1
+fi
+
+echo ":: PASS :: No obvious sensitive data patterns found."
+exit 0

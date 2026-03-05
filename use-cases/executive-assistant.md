@@ -1,8 +1,26 @@
+---
+id: executive-assistant
+name: Executive Assistant
+folders:
+  - meetings/
+  - travel/
+  - tasks/
+  - contacts/
+  - templates/
+  - sensitive/calendar/
+  - sensitive/contacts/
+  - sensitive/travel/
+  - sensitive/meetings/
+files: []
+sensitive_hints:
+  - Executive calendar
+  - Travel details
+  - Contact lists
+  - Confidential meeting notes
+  - Compensation or HR-related items
+---
+
 # Use case: Executive Assistant
-
-**id:** `executive-assistant`
-
-Support an executive (or principal): meetings, travel, contacts, tasks, and documents. Inbox receives action items, confirmations, and notes; agent organizes and keeps confidential items out of committed files.
 
 ---
 
@@ -61,3 +79,4 @@ Support an executive (or principal): meetings, travel, contacts, tasks, and docu
 
 - Default timeline: log under current date unless specified.
 - Before committing: confirm no calendar, travel PII, or contact details in committed files.
+- **Commit Format:** Always use the format `{project-name}: {message}`.

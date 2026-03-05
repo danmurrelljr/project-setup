@@ -1,8 +1,23 @@
+---
+id: job-interviewing
+name: Job Interviewing
+folders:
+  - "{YYYY}/resume/"
+  - "{YYYY}/cover-letters/"
+  - "{YYYY}/archive/"
+files:
+  - "{YYYY}/resume/resume.md"
+  - "{YYYY}/cover-letters/_template.md"
+sensitive_hints:
+  - Resume and cover letter content
+  - Company and role names
+  - Interview feedback
+  - Compensation discussions
+  - Performance notes
+  - Job IDs and URLs
+---
+
 # Use case: Job Interviewing
-
-**id:** `job-interviewing`
-
-Organizing and preparing for job interviews: resume versions, cover letters, and interview prep materials by year and role.
 
 ---
 

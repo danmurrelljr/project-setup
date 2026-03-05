@@ -102,6 +102,10 @@ Based on the project purpose, suggest 1-3 additional folders that might be usefu
 
 Ask the user if they want any of these or others. These are optional — the core structure is always created.
 
+#### 8. Automation Scripts
+
+Suggest creating a `scripts/` folder with helpful automation, such as a pre-commit sensitive data linter. Ask if they'd like this included.
+
 ---
 
 ## Phase 2: Dependency Checks
@@ -235,6 +239,8 @@ Show:
    - Initial commit message
    - Remote creation details (if applicable): platform, visibility, repo name
 
+5. **Automation Scripts** — list any scripts that will be created (e.g. `scripts/lint-sensitive.sh`).
+
 Ask: "Does this look right? Want to change anything before I create it?"
 
 Wait for explicit confirmation. If the user requests changes, incorporate them and show the updated preview. Do not proceed until the user confirms.
@@ -352,7 +358,7 @@ Last updated: {YYYY-MM-DD}
 <!-- none yet -->
 
 ## Recent Changes
-*Rolling log of the last ~10 significant knowledge additions.*
+*Rolling log of the last ~10-15 significant knowledge additions. Maintenance: entries older than 30 days should be pruned or moved to a separate CHANGELOG.md to keep this file concise.*
 
 <!-- none yet -->
 ```
@@ -417,7 +423,7 @@ This is a **public** project. All committed content is visible to anyone.
 1. Add or update rows in the **Knowledge Map** for any files that changed
 2. Add new **Key Topics** tags if new themes appeared
 3. Move resolved items out of **Open Threads**; add new unresolved ones
-4. Append to **Recent Changes** (keep the last ~10 entries; drop older ones)
+4. Append to **Recent Changes** (keep the last ~10-15 entries; prune or move entries older than 30 days to `CHANGELOG.md`).
 5. Update the **Last updated** date at the top
 
 ### What NOT to put here
@@ -449,11 +455,13 @@ When the user asks to "process inbox" or similar:
 List each configured remote:
 - `{remote-name}`: `{remote-url}` ({private or public})
 - Push to all remotes: {list each `git push {remote-name} main` command}
+- **Commit Format:** Always use the format `{project-name}: {message}` (e.g., `{project-name}: add initial research notes`).
 - Always commit with clear, descriptive messages
 - Review staged changes before committing — check for sensitive content
 
 {If local only:}
 - This project has no remote. All git operations are local.
+- **Commit Format:** Always use the format `{project-name}: {message}` (e.g., `{project-name}: add initial research notes`).
 - Commit regularly with clear messages.
 
 ## Session Startup Checklist
@@ -484,7 +492,7 @@ Run the following commands in the project directory:
 ```bash
 git init -b main
 git add .
-git commit -m "Initial scaffold: project structure, README, AGENTS.md, ProjectIndex.md, gitignore"
+git commit -m "{project-name}: initial scaffold (structure, README, AGENTS.md, ProjectIndex.md, gitignore)"
 ```
 
 Note: `git init -b main` requires git 2.28 or later. If the user's git version is older, fall back to:
