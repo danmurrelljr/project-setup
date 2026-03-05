@@ -1,8 +1,22 @@
+---
+id: creative-writing
+name: Creative Writing (Fiction / KDP)
+folders:
+  - Ideas/
+  - Drafts/
+  - Research/
+  - Assets/
+  - Published/
+files:
+  - Ideas/_template.md
+  - Research/Writing_Voice.md
+  - Published/README.md
+sensitive_hints:
+  - Memoir content
+  - Identifiable real people
+---
+
 # Use case: Creative Writing (Fiction / KDP)
-
-**id:** `creative-writing`
-
-Collect, organize, and develop story ideas into finished works for self-publishing (e.g. Amazon KDP). Inbox receives fragments and assets; AI helps move them into structured folders, expand seeds into drafts, and keep voice and catalog consistent.
 
 ---
 
@@ -59,7 +73,8 @@ Collect, organize, and develop story ideas into finished works for self-publishi
 
 - **Create if missing:** Generate `Research/Writing_Voice.md` from the user's existing drafts, fragments, or a short sample they provide. Capture tone, style traits, and any explicit preferences (e.g. direct but reflective, conversational, curiosity-driven).
 - **Review before generating:** Before generating any creative content, the agent must read `Research/Writing_Voice.md` and match the documented voice.
-- **Refine regularly:** Periodically re-read the user's drafts and published work; update Writing_Voice.md with new observations (sentence rhythm, vocabulary, dialogue style, etc.) so the voice doc stays aligned with their actual writing.
+- **Stylistic Guardrails:** Maintain a "Negative Constraints" section in `Writing_Voice.md` (e.g., "Avoid passive voice in action," "Never use 'suddenly' to resolve tension").
+- **Refine regularly:** Periodically re-read the user's drafts and processed work; update Writing_Voice.md with new observations (sentence rhythm, vocabulary, dialogue style, etc.) so the voice doc stays aligned with their actual writing.
 
 ### Project structure (creative writing)
 

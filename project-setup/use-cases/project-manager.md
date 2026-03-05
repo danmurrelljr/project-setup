@@ -1,8 +1,20 @@
+---
+id: project-manager
+name: Project Manager
+folders:
+  - projects/
+  - status/
+  - risks/
+  - deliverables/
+  - stakeholders/
+files: []
+sensitive_hints:
+  - Internal cost data
+  - Vendor terms
+  - Identifiable performance or escalation details
+---
+
 # Use case: Project Manager
-
-**id:** `project-manager`
-
-Delivery-focused workspace: timelines, status, risks, deliverables, and stakeholders. For PMs, delivery leads, or ops roles tracking execution. Inbox captures updates and blockers; agent organizes and keeps status current.
 
 ---
 

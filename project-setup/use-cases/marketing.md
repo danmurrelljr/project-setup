@@ -1,8 +1,20 @@
+---
+id: marketing
+name: Marketing
+folders:
+  - campaigns/
+  - content/
+  - assets/
+  - metrics/
+files: []
+sensitive_hints:
+  - Unreleased campaigns
+  - Pricing
+  - Confidential performance or strategy
+  - Identifiable customer data
+---
+
 # Use case: Marketing
-
-**id:** `marketing`
-
-Campaigns, content calendar, assets, and performance. Inbox receives ideas, copy, and metrics; agent organizes and keeps unreleased or confidential strategy out of committed files.
 
 ---
 

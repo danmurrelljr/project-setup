@@ -1,8 +1,21 @@
+---
+id: career-management
+name: Career Management
+folders:
+  - presentations/
+files:
+  - goals.md
+  - leadership-portfolio.md
+  - political-navigation-guide.md
+  - transition-plan.md
+  - notes.md
+sensitive_hints:
+  - Compensation
+  - Confidential 1:1 notes
+  - Identifiable stakeholder details
+---
+
 # Use case: Career Management
-
-**id:** `career-management`
-
-Private hub for career strategy, leadership portfolio, and professional development. Kept separate from work repos for a "work-safe" boundary while maintaining a high-fidelity record of impact and long-term goals. AI acts as career strategist: challenge the user to refine outcomes, identify gaps, suggest high-leverage activities.
 
 ---
 
@@ -79,6 +92,14 @@ Private hub for career strategy, leadership portfolio, and professional developm
 - **Monthly:** Suggest a "Career check-in"—biggest win, political challenge navigated.
 - **Relationships:** Treat as assets; track last contact with key stakeholders.
 - **Narrative:** Help move from "Manager" to "Strategic Leader" in how outcomes are framed.
+
+### Quarterly Career Audit
+
+Every 3 months, the agent should prompt for a "Career Strategy Review":
+1. Review `leadership-portfolio.md`—are entries results or just activities? Identify gaps for the next level (e.g. Senior to Staff).
+2. Cross-reference with current work goals (without hard-linking repos).
+3. Update stakeholder map (Blockers, Champions, Neutral).
+4. Identify 3 high-leverage activities for the next quarter.
 
 ### Optional initialization prompts
 

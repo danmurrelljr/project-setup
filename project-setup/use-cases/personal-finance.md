@@ -1,14 +1,40 @@
+---
+id: personal-finance
+name: Personal Finance
+folders:
+  - invoices/
+  - statements/
+  - budget/
+  - transactions/
+  - reports/
+  - recurring/
+  - projects/
+  - cleanup/
+  - notes/
+  - templates/
+  - sensitive/statements/
+  - sensitive/invoices/
+  - sensitive/tax_docs/
+  - sensitive/identity/
+files: []
+sensitive_hints:
+  - Account numbers
+  - Balances
+  - SSN
+  - Financial institution names
+  - Raw statements
+  - Invoices with PII
+  - Tax documents
+  - Identity documents
+---
+
 # Use case: Personal Finance
-
-**id:** `personal-finance`
-
-Secure, local-first tracking of personal finances with an AI assistant: add data to inbox, AI organizes it, builds reports, and runs analyses. Designed for Cursor, Claude Code, Windsurf, or similar.
 
 ---
 
 ## Sensitive content hints (add to default)
 
-- Account numbers, balances, SSN, financial institution names, raw statements, invoices with PII, tax documents, identity documents. Strongly recommend **private**. In any committed markdown, **redact**: use masked identifiers (e.g. `Chase-****1234`, `Bank-****5678`), never full account numbers.
+- Account numbers, balances, SSN, financial institution names, raw statements, invoices with PII, tax documents, identity documents. Strongly recommend **private**. In any committed markdown, **redact**: use masked identifiers (e.g. `[REDACTED_ACCOUNT:Chase-1234]`, `[REDACTED_SSN:XXXX]`), never full sensitive data.
 
 ---
 
@@ -81,4 +107,5 @@ Process and move into the right folder (transactions/, reports/, recurring/, sta
 ### Working with this repo
 
 - Prefer local-only or self-hosted Git (e.g. Forgejo on NAS) for history and backup without putting financial data on GitHub/GitLab.
+- **Commit Format:** Always use the format `{project-name}: {message}`.
 - When adding data: drop in inbox and ask AI to process, or place in the appropriate folder. Keep raw/PII in sensitive/ only.

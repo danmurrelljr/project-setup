@@ -1,8 +1,22 @@
+---
+id: product-designer-research
+name: Product Designer / User Research
+folders:
+  - research/
+  - personas/
+  - prototypes/
+  - usability-notes/
+  - sensitive/participants/
+  - sensitive/sessions/
+files: []
+sensitive_hints:
+  - Participant names
+  - Contact info
+  - Identifiable quotes
+  - Raw session recordings or transcripts
+---
+
 # Use case: Product Designer / User Research
-
-**id:** `product-designer-research`
-
-Research studies, findings, personas, and design artifacts. Inbox receives session notes, screenshots, and feedback; agent organizes and keeps participant data out of committed files.
 
 ---
 

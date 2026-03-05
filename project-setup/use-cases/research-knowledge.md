@@ -1,8 +1,22 @@
+---
+id: research-knowledge
+name: Research / Knowledge
+folders:
+  - sources/
+  - notes/
+  - drafts/
+  - citations/
+  - sensitive/data/
+  - sensitive/participants/
+files: []
+sensitive_hints:
+  - Unpublished data
+  - Human-subject information
+  - Identifiable participant details
+  - Confidential sources
+---
+
 # Use case: Research / Knowledge
-
-**id:** `research-knowledge`
-
-For researchers, grad students, or anyone doing deep reading and writing: sources, literature notes, drafts, and citations. Inbox receives quotes, references, and fragments; agent organizes and keeps raw or human-subject data out of committed files.
 
 ---
 
