@@ -30,6 +30,7 @@ Privacy is treated as a first-class concern. The default is **private**, and tha
 Once the skill is installed, start a new Claude conversation. Claude will greet you, explain the setup process, and ask a few questions:
 
 - What is this project for?
+- (Optional) Does a **use case** fit? — e.g. job interviewing, personal finance, career management, creative writing, team management, teaching, product/design/exec roles, research, marketing. If one fits, Claude pre-fills structure and defaults.
 - Should it be private or public? (defaults to private)
 - Where should the project folder be created?
 - Do you want to sync to one or more remote git hosts?

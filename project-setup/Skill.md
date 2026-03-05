@@ -27,7 +27,37 @@ Ask what the project is for. Get a short name (used as the folder/repo name) and
 
 If the user gives a name with spaces or mixed case, silently convert it to the kebab-case form and confirm: "I'll use `{converted-name}` as the project folder name."
 
-#### 2. Privacy Setting
+#### 2. Use Case (Optional)
+
+Based on the project description, suggest the most likely use case from the list below and ask if it matches. If it does, read `use-cases/{id}.md` immediately and carry its content forward — it will pre-fill folder structure, inbox processing defaults, and sensitive content hints for the remaining questions. The user can always say "none" or describe something different.
+
+Available use cases:
+
+| id | Name | When to suggest |
+|----|------|----------------|
+| `job-interviewing` | Job Interviewing | Resume, cover letters, interview prep |
+| `personal-finance` | Personal Finance | Budgeting, statements, transactions, taxes |
+| `career-management` | Career Management | Goals, brag sheet, stakeholder navigation, transition planning |
+| `creative-writing` | Creative Writing | Fiction, memoir, KDP self-publishing |
+| `team-management` | Team Management | Engineering manager or similar leading a team |
+| `teacher-instructor` | Teacher / Instructor | Curriculum, lesson plans, student materials |
+| `product-manager` | Product Manager | Roadmap, PRDs, backlog, metrics |
+| `product-designer-research` | Product Designer / User Research | UX research, personas, usability |
+| `executive-assistant` | Executive Assistant | Supporting an exec: meetings, travel, tasks |
+| `recruiter` | Recruiter | Roles, pipeline, interview process |
+| `project-manager` | Project Manager | Delivery: status, risks, deliverables, stakeholders |
+| `research-knowledge` | Research / Knowledge | Literature notes, sources, academic drafts |
+| `marketing` | Marketing | Campaigns, content calendar, assets, metrics |
+
+Example: if the user described a personal budgeting project, say something like: "This sounds like a **Personal Finance** project — I have a preset structure for that with budget, transactions, and reports folders, and specific rules about keeping account numbers out of committed files. Does that fit, or would you describe it differently?"
+
+If a use case matches: confirm with the user, read the use case file, and carry its contents into the remaining questions. Do not re-ask questions the use case already answers (sensitive hints, inbox processing, extra folders) — just confirm the pre-filled answers or let the user tweak them.
+
+If no use case matches: proceed with the base setup and gather the remaining details through the rest of the questions (privacy through additional folders, and optional scripts).
+
+---
+
+#### 3. Privacy Setting
 
 Ask whether this project should be **private** (default, strongly recommended) or **public**.
 
@@ -40,7 +70,7 @@ Default to private. If the user says "public," confirm once: "Just to confirm �
 
 Record the choice. This setting is **paramount** and affects every subsequent step.
 
-#### 3. Local Storage Path
+#### 4. Local Storage Path
 
 Ask where the project folder should be created on the local filesystem. Suggest a sensible default based on the current working directory or common patterns like `~/Projects/` or `~/Dev/personal/`. Accept whatever path the user provides.
 
@@ -48,22 +78,22 @@ Validate that the parent directory exists. If it does not, ask whether to create
 
 If a folder with the chosen project name already exists at the target path, stop and ask the user how to proceed. Never overwrite an existing directory.
 
-#### 4. Git Sync Preference
+#### 5. Git Sync Preference
 
 Ask whether the user wants to sync this project to one or more remote git hosts, or keep it local only.
 
 For each remote, gather:
 - **Platform** — GitHub, GitLab, Bitbucket, Forgejo (self-hosted), or Other
-- **Remote name** — the local git alias for this remote (e.g. `origin`, `madcap`, `backup`). Suggest `origin` for the first remote.
+- **Remote name** — the local git alias for this remote (e.g. `origin`, `backup`, `upstream`). Suggest `origin` for the first remote.
 - **Platform-specific details** — for Forgejo: server URL (e.g. `http://nas:3001`) and username. For Other: ask what commands are needed.
 
 After collecting details for one remote, ask: "Do you have any other remotes you'd like to sync with?" Repeat until the user is done.
 
 For all remotes:
-- State clearly that every remote repository will be created as **private** or **public** to match their privacy setting from question 2. This is non-negotiable and applies to every remote without exception.
+- State clearly that every remote repository will be created as **private** or **public** to match their privacy setting from question 3. This is non-negotiable and applies to every remote without exception.
 - If a platform or CLI does not support setting visibility programmatically, warn the user to verify the visibility manually in the web UI before pushing.
 
-#### 5. Inbox Processing Behavior
+#### 6. Inbox Processing Behavior
 
 Explain the inbox workflow:
 
@@ -78,7 +108,7 @@ Then ask: "When you say 'process inbox,' what should happen with the contents?" 
 
 Record the user's preference in their own words. This will be written into AGENTS.md verbatim so future AI sessions know exactly what to do.
 
-#### 6. Sensitive Content Hints
+#### 7. Sensitive Content Hints
 
 Based on the project purpose, **proactively suggest** what kinds of content might be sensitive. For example:
 
@@ -92,7 +122,7 @@ Ask the user to confirm your guesses and add anything else. These become hard ru
 
 If the project purpose inherently involves high-sensitivity domains (finances, medical, legal, personal relationships, employment), automatically escalate the privacy posture: add additional warnings, recommend private even more strongly if they chose public, and generate stricter AGENTS.md rules.
 
-#### 7. Additional Folders (Optional)
+#### 8. Additional Folders (Optional)
 
 Based on the project purpose, suggest 1-3 additional folders that might be useful beyond the standard `inbox/`, `archive/`, `sensitive/`, `scratch/`, and `sources/`. Examples:
 
@@ -102,7 +132,7 @@ Based on the project purpose, suggest 1-3 additional folders that might be usefu
 
 Ask the user if they want any of these or others. These are optional — the core structure is always created.
 
-#### 8. Automation Scripts
+#### 9. Automation Scripts
 
 Suggest creating a `scripts/` folder with helpful automation, such as a pre-commit sensitive data linter. Ask if they'd like this included.
 

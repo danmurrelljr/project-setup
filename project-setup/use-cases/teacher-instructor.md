@@ -1,6 +1,25 @@
-# Use case: Teacher / Instructor
+---
+id: teacher-instructor
+name: Teacher / Instructor
+folders:
+  - curriculum/
+  - lessons/
+  - materials/
+  - assessments/
+  - sensitive/students/
+  - sensitive/grades/
+files:
+  - notes.md
+sensitive_hints:
+  - Student names
+  - Grades
+  - Attendance
+  - Accommodations
+  - Disciplinary notes
+  - Parent communications
+---
 
-**id:** `teacher-instructor`
+# Use case: Teacher / Instructor
 
 Organize curriculum, lesson plans, materials, and assessments by course or term. Capture ideas and feedback in inbox; route to the right place. Student-identifiable data stays out of committed files.
 
@@ -9,6 +28,7 @@ Organize curriculum, lesson plans, materials, and assessments by course or term.
 ## Sensitive content hints (add to default)
 
 - Student names, grades, attendance, accommodations, disciplinary notes, parent communications. Keep in `sensitive/` (e.g. `sensitive/students/`, `sensitive/grades/`). Committed docs use anonymized or aggregate language only.
+- **FERPA (US):** In the United States, student education records are protected under FERPA. Storing student-identifiable data — even in a local, private repo — may have compliance implications; consult your institution's policy before keeping any student records in this project. When in doubt, keep nothing student-identifiable outside `sensitive/`, and consider whether even `sensitive/` is the right place for official records.
 
 ---
 
@@ -21,6 +41,10 @@ Organize curriculum, lesson plans, materials, and assessments by course or term.
 - `materials/` — handouts, slides, activities (non-sensitive)
 - `assessments/` — rubrics, exam questions, assignment templates
 - `sensitive/students/` or `sensitive/grades/` — (optional subfolders) any student-identifiable data; never committed
+
+**Top-level files:**
+
+- `notes.md` — general running log; dated entries for unclassified ideas, feedback, or observations that don't fit a specific folder
 
 *(Default `inbox/`, `archive/`, `sensitive/` already exist.)*
 
@@ -42,6 +66,7 @@ Organize curriculum, lesson plans, materials, and assessments by course or term.
 | `materials/` | Handouts, slides, activities |
 | `assessments/` | Rubrics, exam questions, templates |
 | `sensitive/students/` or `sensitive/grades/` | (If used) Student-identifiable data; gitignored |
+| `notes.md` | General running log; dated unclassified notes |
 
 **Workflow:** Drop ideas and feedback in inbox; AI routes to curriculum, lessons, materials, or assessments. Keep student data in sensitive/ only; committed docs stay anonymized/aggregate.
 
@@ -51,7 +76,7 @@ Organize curriculum, lesson plans, materials, and assessments by course or term.
 
 ### Project structure (teaching)
 
-- `curriculum/`, `lessons/`, `materials/`, `assessments/`. Student data only in `sensitive/` subfolders; never in committed files.
+- `curriculum/`, `lessons/`, `materials/`, `assessments/`, `notes.md`. Student data only in `sensitive/` subfolders; never in committed files.
 - When referencing students in committed docs, use anonymized descriptions or aggregates (e.g. "one student requested…", "midterm average…").
 
 ### Working with this repo

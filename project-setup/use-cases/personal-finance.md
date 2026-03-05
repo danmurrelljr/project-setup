@@ -107,5 +107,4 @@ Process and move into the right folder (transactions/, reports/, recurring/, sta
 ### Working with this repo
 
 - Prefer local-only or self-hosted Git (e.g. Forgejo on NAS) for history and backup without putting financial data on GitHub/GitLab.
-- **Commit Format:** Always use the format `{project-name}: {message}`.
 - When adding data: drop in inbox and ask AI to process, or place in the appropriate folder. Keep raw/PII in sensitive/ only.
