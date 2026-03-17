@@ -1,6 +1,7 @@
 ---
-name: Project Setup
+name: project-setup
 description: Scaffolds a new AI-assisted personal project with inbox workflow, task list (Project→Story→Task), scratch/sensitive/sources folders, privacy controls, git setup, and a customized AGENTS.md
+dependencies: git, gh (optional), glab (optional), tea (optional)
 ---
 
 # Project Setup Skill
