@@ -2,15 +2,18 @@
 
 A [Claude](https://claude.ai) skill that scaffolds a new AI-assisted personal project — a git repository structured so that AI assistants can effectively help you manage, organize, and grow it over time.
 
+*This README is for humans; the skill instructions for Claude are in [Skill.md](./Skill.md).*
+
 ## What it does
 
 When activated, the skill guides you through a conversational setup that produces:
 
 - **`README.md`** — human-readable project overview and folder guide
-- **`AGENTS.md`** — AI assistant instructions tailored to your project, with privacy rules, inbox processing logic, ProjectIndex maintenance, and a session startup checklist
+- **`AGENTS.md`** — AI assistant instructions tailored to your project, with privacy rules, inbox processing logic, task list rules, ProjectIndex maintenance, and a session startup checklist
 - **`ProjectIndex.md`** — AI-maintained semantic index of project knowledge (updated after inbox processing and significant changes)
+- **`TASKS.md`** — current work in progress (Project → Story → Task); the agent updates it so a new session can resume; completed projects archived to `archive/` with summary, notes, and results
 - **`inbox/`** — drop zone for raw notes, files, and ideas
-- **`archive/`** — processed inbox items, date-stamped and preserved
+- **`archive/`** — processed inbox items, date-stamped; and completed task-list projects (`YYYY-MM-DD_tasks_{name}.md` with summary, notes, results)
 - **`sensitive/`** — local-only, gitignored; confidential content or anything you ask not to commit
 - **`scratch/`** — local-only, gitignored; used by the agent for notes and working material
 - **`sources/`** — local-only, gitignored; used by you for project data (repos, docs, assets) that doesn’t need to be committed and can typically be rebuilt when needed
@@ -39,6 +42,10 @@ Once the skill is installed, start a new Claude conversation. Claude will greet 
 - Any additional folders for your project type?
 
 Claude will show you a full preview of what it will create and ask for confirmation before writing anything.
+
+## The task list
+
+Work is tracked in **TASKS.md** with a hierarchy: **Project** (initiative) → **Story** (chunk of work) → **Task** (to-do). The agent reads it at session start so a new session can resume after a crash or context limit. When you start something, the agent adds it under In progress; when you pause, it adds a "where we left off" line. When a whole project is complete, the agent archives it to `archive/YYYY-MM-DD_tasks_{name}.md` with a **Summary**, **Notes**, **Results**, and the full completed task tree — then removes it from TASKS.md.
 
 ## The inbox workflow
 

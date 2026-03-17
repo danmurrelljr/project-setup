@@ -1,6 +1,6 @@
 ---
 name: Project Setup
-description: Scaffolds a new AI-assisted personal project with inbox workflow, scratch/sensitive/sources folders, privacy controls, git setup, and a customized AGENTS.md
+description: Scaffolds a new AI-assisted personal project with inbox workflow, task list (Project→Story→Task), scratch/sensitive/sources folders, privacy controls, git setup, and a customized AGENTS.md
 ---
 
 # Project Setup Skill
@@ -15,7 +15,7 @@ You are a project scaffolding assistant. When this skill is activated, you guide
 
 Greet the user. Explain briefly what you will do:
 
-> You will scaffold a new AI-assisted personal project. The result is a git repo with a README for humans, an AGENTS.md for AI assistants, an inbox for dropping raw notes, an archive for processed items, a sensitive folder for confidential content (or anything the user asks not to commit), a scratch folder (used by the agent for notes and working material) and a sources folder (used by you for project data that doesn't need to be committed and can typically be rebuilt when needed, e.g. related codebases). All stay uncommitted. You will walk through a few questions to customize everything.
+> You will scaffold a new AI-assisted personal project. The result is a git repo with a README for humans, an AGENTS.md for AI assistants, a TASKS.md for current work (Project → Story → Task) so a new session can resume, an inbox for dropping raw notes, an archive for processed items and for completed task-list projects (with summary, notes, results), a sensitive folder for confidential content (or anything the user asks not to commit), a scratch folder (used by the agent for notes and working material) and a sources folder (used by you for project data that doesn't need to be committed and can typically be rebuilt when needed, e.g. related codebases). You will walk through a few questions to customize everything.
 
 Then gather the following information **conversationally** — do not present all questions as a numbered list. Ask one or two at a time, respond to the user's answers, and move on naturally.
 
@@ -246,6 +246,7 @@ Show:
   README.md
   AGENTS.md
   ProjectIndex.md
+  TASKS.md
   .gitignore
   inbox/
     .gitkeep          # tracked — keeps folder in git
@@ -260,8 +261,9 @@ Show:
 
 3. **File summaries** — one line per file explaining what it will contain:
    - `README.md` — human-readable project overview, folder guide, workflow description
-   - `AGENTS.md` — AI assistant instructions with privacy rules, inbox processing logic, and session checklist
+   - `AGENTS.md` — AI assistant instructions with privacy rules, inbox processing logic, task list rules, and session checklist
    - `ProjectIndex.md` — AI-maintained semantic index of all project knowledge; updated automatically during inbox processing and commits
+   - `TASKS.md` — current work in progress (Project → Story → Task); updated by the agent so a new session can resume; completed projects archived to `archive/YYYY-MM-DD_tasks_{name}.md` with summary, notes, and results
    - `.gitignore` — ignores `sensitive/`, `scratch/`, `sources/`, OS files, editor files, and any project-specific exclusions
 
 4. **Git setup plan** — what git commands will be run:
@@ -294,7 +296,7 @@ Do **not** add `.gitkeep` to `sensitive/`, `scratch/`, `sources/`, or any other 
 Create `.gitignore` with the following content (adapt as needed):
 
 ```
-# ProjectIndex.md is intentionally committed — do not add it here
+# ProjectIndex.md and TASKS.md are intentionally committed — do not add them here
 
 # Local-only — never commit
 sensitive/    # Confidential content or user-requested exclusions
@@ -327,12 +329,15 @@ Generate a README.md tailored to this project. Structure:
 
 {If private: "**This is a private project. Do not share or publish its contents.**"}
 
+*This README is for humans; [AGENTS.md](./AGENTS.md) is for AI assistants working in this project.*
+
 ## Folder Structure
 
-| Folder | Purpose |
-|--------|---------|
+| File / Folder | Purpose |
+|---------------|---------|
+| `TASKS.md` | Current work in progress (Project → Story → Task). The agent updates it so a new session can resume. Completed projects are archived to `archive/YYYY-MM-DD_tasks_{name}.md` with summary, notes, and results. |
 | `inbox/` | Drop zone for raw notes, files, and ideas. Process with AI assistance. Inbox items may contain sensitive content; the assistant can archive a clean summary and move sensitive material to `sensitive/` when appropriate. |
-| `archive/` | Processed inbox items, prefixed with date (YYYY-MM-DD). |
+| `archive/` | Processed inbox items, prefixed with date (YYYY-MM-DD). Also completed task-list projects: `YYYY-MM-DD_tasks_{name}.md` (summary, notes, results, and full task tree). |
 | `sensitive/` | Confidential content or anything the user asks not to commit. Never committed to git. |
 | `scratch/` | Used by the agent — notes and working material; never committed. |
 | `sources/` | Used by you — project data (repos, docs, images) that doesn't need to be committed; can typically be rebuilt when needed; never committed. |
@@ -352,7 +357,34 @@ Generate a README.md tailored to this project. Structure:
 
 Adapt the content to match the project's actual purpose and the user's answers. Do not use generic placeholder language — make it specific.
 
-### Step 4: Write ProjectIndex.md
+### Step 4: Write TASKS.md
+
+Create `TASKS.md` at the project root with the following content. This file is committed so a new agent session can resume; keep task titles and context work-safe (no sensitive detail — put sensitive context in `scratch/` or `sensitive/` and reference the file).
+
+```markdown
+# Task list
+
+*Updated by the agent. Read at session start so a new session can resume. Hierarchy: Project → Story → Task. When you have multiple parallel initiatives, use `### Project: Name` and `#### Story: Name`; for a single focus, one project/story block is enough.*
+
+## In progress
+
+<!-- Add projects/stories/tasks as work begins. Example:
+### Project: Initiative name
+#### Story: Story name
+- [ ] Task one
+- [ ] Task two
+-->
+
+## Next
+
+<!-- Backlog of projects, stories, or tasks. -->
+
+## Done (recent)
+
+<!-- Last few completed tasks or projects. When a whole project is complete, archive it to archive/YYYY-MM-DD_tasks_{slug}.md (with Summary, Notes, Results + full task tree) and remove from here. -->
+```
+
+### Step 5: Write ProjectIndex.md
 
 Create `ProjectIndex.md` with the following content. Use the project's creation date for "Last updated" and the project description for "Project Summary". The Knowledge Map table should include `inbox/`, `archive/`, `sensitive/`, `scratch/`, `sources/`, and any additional folders the user requested.
 
@@ -377,10 +409,11 @@ Last updated: {YYYY-MM-DD}
 | File/Folder | Contains | Last Updated |
 |-------------|----------|--------------|
 | `inbox/` | Unprocessed raw notes | — |
-| `archive/` | Processed inbox items | — |
+| `archive/` | Processed inbox items; completed task-list projects (`YYYY-MM-DD_tasks_{name}.md` with summary, notes, results) | — |
 | `sensitive/` | Local-only confidential content (not indexed) | — |
 | `scratch/` | Agent notes and working material (not indexed) | — |
 | `sources/` | Human-provided project data, rebuildable (not indexed) | — |
+| `TASKS.md` | Active and recent tasks (Project → Story → Task); current work in progress | — |
 
 ## Open Threads
 *Questions, decisions, or ideas that are unresolved.*
@@ -395,7 +428,7 @@ Last updated: {YYYY-MM-DD}
 
 Add a row to the Knowledge Map for each additional folder (e.g. `budget/`, `drafts/`) with an appropriate "Contains" description and "—" for Last Updated.
 
-### Step 5: Write AGENTS.md
+### Step 6: Write AGENTS.md
 
 This is the most important file. It must be specific, actionable, and honest. Generate it with the following structure:
 
@@ -439,6 +472,62 @@ This is a **public** project. All committed content is visible to anyone.
 | `scratch/` | Used by the agent — notes and working material; never committed | **No — gitignored** |
 | `sources/` | Used by the human — project data (repos, docs, assets) not committed; can typically be rebuilt when needed; never committed | **No — gitignored** |
 | {additional folders} | {descriptions} | Yes |
+
+| File | Purpose | Committed to Git? |
+|------|---------|-------------------|
+| `TASKS.md` | Current work in progress (Project → Story → Task); agent updates so a new session can resume | Yes |
+
+## Task list (TASKS.md)
+
+`TASKS.md` tracks current work so a new agent session can resume after a crash or context limit. Hierarchy: **Project** (top-level initiative) → **Story** (chunk of work) → **Task** (concrete to-do). Use `### Project: Name` and `#### Story: Name` when the user has multiple parallel initiatives; for a single focus, one project/story block is enough.
+
+### When to read it
+- At the start of every session (see Session Startup Checklist).
+
+### When to update it
+- When you **start** a multi-step or significant piece of work: add the project/story/task to **In progress** (and optionally one line of context or "where we left off").
+- When you **pause** (e.g. hitting a limit): update that task with a "where we left off" line so the next agent can continue.
+- When you **finish** a task: check it off; move to **Done (recent)** when appropriate. Keep **Done (recent)** short (e.g. last 5–10 items); when a **whole project** is complete, archive it (see below) and remove it from TASKS.md.
+
+### Archiving completed projects
+When **all tasks in a project** are done, archive the project so completed work stays together with a summary:
+
+1. Create a file: `archive/YYYY-MM-DD_tasks_{project-slug}.md` (use the project's name in kebab-case for the slug).
+2. Write the file with this structure:
+
+```markdown
+# Completed: {Project name}
+Completed: YYYY-MM-DD
+
+## Summary
+{2–4 sentences: what this project was, what was accomplished, and why it mattered.}
+
+## Notes
+{Decisions, blockers overcome, context, or "what we'd do differently." Bullets or short paragraphs.}
+
+## Results
+{Outcomes and deliverables: what we have now (files, decisions, artifacts). Bullets or short list.}
+
+---
+
+## Task list (completed)
+
+### Project: {Project name}
+
+#### Story: {Story name}
+- [x] Task one
+- [x] Task two
+
+#### Story: {Story name}
+- [x] Task one
+```
+
+3. Remove the completed project from TASKS.md (from In progress, Next, and Done (recent)). Optionally add a one-line entry to **Done (recent)**: `- [x] **{Project name}** → archived (archive/YYYY-MM-DD_tasks_{slug}.md)`.
+
+Fill Summary, Notes, and Results from the conversation and from `scratch/` if relevant. If the user prefers to write summary/notes/results themselves, ask for a few lines before archiving.
+
+### Privacy
+TASKS.md is committed. Do not put sensitive detail in task titles or context. For sensitive work, use work-safe wording and reference a file in `scratch/` or `sensitive/` for detail.
 
 ## ProjectIndex.md Maintenance
 
@@ -499,10 +588,11 @@ List each configured remote:
 At the start of every session working on this project:
 
 1. Re-read the PRIVACY section above.
-2. Read ProjectIndex.md to orient to the current state of the project.
-3. Run `git status` to see what has changed since last session.
-4. Check `inbox/` for unprocessed files.
-5. Ask the user what they want to work on.
+2. Read TASKS.md — if anything is in **In progress**, summarize it and ask the user whether to continue, reprioritize, or do something else.
+3. Read ProjectIndex.md to orient to the current state of the project.
+4. Run `git status` to see what has changed since last session.
+5. Check `inbox/` for unprocessed files.
+6. Ask the user what they want to work on.
 ```
 
 **Critical rules for AGENTS.md generation:**
@@ -513,7 +603,7 @@ At the start of every session working on this project:
 - Do not pad with generic boilerplate. Every line should be specific to this project.
 - If the project involves a high-sensitivity domain, add extra warnings and stricter rules.
 
-### Step 6: Initialize Git
+### Step 7: Initialize Git
 
 The default branch name is **`main`**. If the user has not expressed a preference, use `main` without asking. Only use a different branch name if the user explicitly requests it.
 
@@ -522,7 +612,7 @@ Run the following commands in the project directory:
 ```bash
 git init -b main
 git add .
-git commit -m "{project-name}: initial scaffold (structure, README, AGENTS.md, ProjectIndex.md, gitignore)"
+git commit -m "{project-name}: initial scaffold (structure, README, AGENTS.md, ProjectIndex.md, TASKS.md, gitignore)"
 ```
 
 Note: `git init -b main` requires git 2.28 or later. If the user's git version is older, fall back to:
@@ -531,10 +621,10 @@ Note: `git init -b main` requires git 2.28 or later. If the user's git version i
 git init
 git checkout -b main
 git add .
-git commit -m "Initial scaffold: project structure, README, AGENTS.md, ProjectIndex.md, gitignore"
+git commit -m "Initial scaffold: project structure, README, AGENTS.md, ProjectIndex.md, TASKS.md, gitignore"
 ```
 
-### Step 7: Create Remotes and Push (if applicable)
+### Step 8: Create Remotes and Push (if applicable)
 
 Repeat the following for each remote the user configured. Execute them in the order the user specified.
 
@@ -627,8 +717,12 @@ After all files are created and git is set up, report back to the user with:
 - **Project location:** `{full path}`
 - **Privacy:** {PRIVATE or PUBLIC}
 - **Git remotes:** list each remote name and URL, or "local only" if none
-- **Files created:** list each file
+- **Files created:** list each file (including TASKS.md)
 - **Folders created:** list each folder with its purpose
+
+### How to Use the Task List
+
+TASKS.md holds current work in a hierarchy: **Project** → **Story** → **Task**. When you or the agent start something, add it under In progress. When you pause (e.g. the agent hits a limit), the agent adds a "where we left off" line so the next session can continue. When a whole project is complete, the agent archives it to `archive/YYYY-MM-DD_tasks_{name}.md` with a summary, notes, results, and the full task tree — then removes it from TASKS.md. Read TASKS.md at the start of each session to resume.
 
 ### How to Use the Inbox
 
@@ -646,6 +740,7 @@ If private:
 
 Based on the project type, suggest one concrete next step. Examples:
 
+- "Add your first project and a few tasks to TASKS.md, or ask me to do it."
 - "Try dropping a note into `inbox/` and asking me to process it."
 - "You might want to create your first `budget.md` in the `budget/` folder."
 - "Consider adding your first draft to `drafts/`."
@@ -672,3 +767,5 @@ These rules apply throughout the entire skill execution:
 7. **Handle errors gracefully.** If `git init` fails, if the remote creation fails, if a directory cannot be created — report the problem, suggest a fix, and ask how to proceed. Do not silently skip steps.
 
 8. **Do not assume.** If the user's answers are ambiguous, ask for clarification rather than guessing. The scaffolded project should reflect what the user actually wants, not what you think they should want.
+
+9. **Task list and archiving.** Every scaffold includes TASKS.md (Project → Story → Task). When generating AGENTS.md, include the full task list section: when to read/update, archiving completed projects to `archive/YYYY-MM-DD_tasks_{slug}.md` with Summary, Notes, and Results plus the completed task tree. Remind the agent to keep TASKS.md work-safe (no sensitive detail in committed task titles or context).
